@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "name": "signal-lab-ryan-vo",
+  "owner": "A220man",
+  "email": "ryandtvo@gmail.com",
+  "domain": "AI/ML developer tools",
+  "summary": "Work in progress: signal-lab-ryan-vo",
+  "workflows": [
+    "Generate and analyze signals (sine, square, noise, chirp) with FFT, spectrogram, and statistical analysis",
+    "Detect anomalies in signals using statistical thresholding with configurable windows",
+    "Export signals and analyses in JSON, CSV, or WAV formats for downstream ML pipelines"
+  ],
+  "auth": "oidc-keycloak-saml-broker",
+  "llm_providers": [
+    "openai-compatible",
+    "anthropic",
+    "gemini",
+    "ollama"
+  ],
+  "status": "work-in-progress"
+}
