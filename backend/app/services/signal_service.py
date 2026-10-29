@@ -137,7 +137,27 @@ class SignalService:
                 for a in analyses
             ]
 
-        return export_data
+        if format == "json":
+            return export_data
+
+        if format == "csv":
+            import csv
+            import io
+            output = io.StringIO()
+            writer = csv.writer(output)
+            # Write header
+            writer.writerow(["sample_index", "time", "amplitude"])
+            # Write data rows
+            dt = 1.0 / signal.sample_rate
+            for i, value in enumerate(signal.data):
+                writer.writerow([i, i * dt, value])
+            return {"content": output.getvalue(), "media_type": "text/csv", "filename": f"{signal.name}.csv"}
+
+        if format == "wav":
+            # WAV export not yet implemented
+            raise ValueError("WAV export not yet implemented")
+
+        raise ValueError(f"Unknown export format: {format}")
 
     def _log_audit(
         self, user_id: Optional[str], action: str, resource_type: str, resource_id: Optional[str], details: Optional[str] = None
