@@ -133,6 +133,13 @@ def export_signal(
     service = SignalService(db)
     try:
         export_data = service.export_signal(signal_id, format, include_analysis)
+        if format == "csv":
+            from fastapi.responses import Response
+            return Response(
+                content=export_data["content"],
+                media_type=export_data["media_type"],
+                headers={"Content-Disposition": f'attachment; filename="{export_data["filename"]}"'}
+            )
         return export_data
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
