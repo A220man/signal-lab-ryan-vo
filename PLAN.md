@@ -4,7 +4,7 @@ Each round completes one feature or repair. Future items are planned, not implem
 
 ## Current round
 
-core-skeleton
+signal-engine
 
 ## Roadmap
 
@@ -25,7 +25,7 @@ Tests: `backend/tests/test_signal_processor.py`, `backend/tests/test_api.py`, `b
 
 ### signal-engine — Core signal processing engine (deterministic, offline)
 
-Status: planned
+Status: in_progress
 
 Acceptance:
 - Signal generation (sine, square, noise, chirp)
@@ -33,6 +33,10 @@ Acceptance:
 - Filter design (FIR/IIR) and application
 - Spectrogram computation
 - All algorithms work without LLM keys
+
+Implementation: `backend/app/services/signal_processor.py`, `backend/app/services/signal_service.py`
+
+Tests: `backend/tests/test_signal_processor.py`
 
 ### auth-oidc — OIDC authentication with Keycloak
 

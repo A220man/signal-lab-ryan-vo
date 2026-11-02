@@ -64,9 +64,18 @@ class SignalProcessor:
         return amplitude * y / np.std(y) if np.std(y) > 0 else amplitude * y
 
     @staticmethod
-    def compute_fft(data: List[float], sample_rate: int) -> Dict[str, Any]:
+    def compute_fft(
+        data: List[float],
+        sample_rate: int,
+        window: Optional[str] = None,
+    ) -> Dict[str, Any]:
         n = len(data)
         y = np.array(data)
+        
+        if window is not None:
+            win = sp_signal.get_window(window, n)
+            y = y * win
+        
         yf = fft(y)
         xf = fftfreq(n, 1 / sample_rate)
 
@@ -81,6 +90,7 @@ class SignalProcessor:
             "phases": phases.tolist(),
             "sample_rate": sample_rate,
             "n_samples": n,
+            "window": window,
         }
 
     @staticmethod
