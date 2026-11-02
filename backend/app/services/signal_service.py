@@ -68,7 +68,12 @@ class SignalService:
         data = signal.data
 
         if request.analysis_type == "fft":
-            result = SignalProcessor.compute_fft(data, signal.sample_rate)
+            params = request.parameters or {}
+            result = SignalProcessor.compute_fft(
+                data,
+                signal.sample_rate,
+                window=params.get("window"),
+            )
         elif request.analysis_type == "spectrogram":
             params = request.parameters or {}
             result = SignalProcessor.compute_spectrogram(

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "current_feature": "core-skeleton",
+  "current_feature": "signal-engine",
   "features": [
     {
       "id": "core-skeleton",
@@ -43,7 +43,7 @@
     {
       "id": "signal-engine",
       "title": "Core signal processing engine (deterministic, offline)",
-      "status": "planned",
+      "status": "in_progress",
       "acceptance": [
         "Signal generation (sine, square, noise, chirp)",
         "FFT analysis with configurable windows",
@@ -51,8 +51,8 @@
         "Spectrogram computation",
         "All algorithms work without LLM keys"
       ],
-      "implementation": [],
-      "tests": []
+      "implementation": ["backend/app/services/signal_processor.py", "backend/app/services/signal_service.py"],
+      "tests": ["backend/tests/test_signal_processor.py"]
     },
     {
       "id": "auth-oidc",

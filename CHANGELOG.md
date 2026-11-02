@@ -1,12 +1,18 @@
 # Changelog
 
+## 1.2.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
 ## 1.1.0 — work-in-progress checkpoint
 
-Partial code published for continued development. Known issues: STATUS.md.
+### Added
+- FFT windowing support (hann, blackman, hamming, etc.) via `window` parameter in analysis request
+- Window parameter propagated to FFT results metadata
 
-## 1.0.0 — work-in-progress checkpoint
+### Changed
+- Fixed numpy/scipy version compatibility (numpy<2.0, scipy<1.14)
 
-Partial code published for continued development. Known issues: STATUS.md.
 
 All notable changes to this project will be documented in this file.
 
