@@ -25,7 +25,7 @@ Tests: `backend/tests/test_signal_processor.py`, `backend/tests/test_api.py`, `b
 
 ### signal-engine — Core signal processing engine (deterministic, offline)
 
-Status: in_progress
+Status: done
 
 Acceptance:
 - Signal generation (sine, square, noise, chirp)
