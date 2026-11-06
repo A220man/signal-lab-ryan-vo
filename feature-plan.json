@@ -43,7 +43,7 @@
     {
       "id": "signal-engine",
       "title": "Core signal processing engine (deterministic, offline)",
-      "status": "in_progress",
+      "status": "done",
       "acceptance": [
         "Signal generation (sine, square, noise, chirp)",
         "FFT analysis with configurable windows",
