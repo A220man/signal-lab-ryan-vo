@@ -205,6 +205,38 @@ class TestSignalAPI:
         assert data["analysis_type"] == "statistics"
         assert "mean" in data["result_data"]
         assert "std" in data["result_data"]
+    def test_analyze_anomaly_global(self):
+        create_resp = client.post(
+            "/api/signals/generate",
+            json={"name": "Anomaly Test", "signal_type": "sine", "sample_rate": 1000, "duration": 1.0, "frequency": 10.0, "amplitude": 1.0},
+        )
+        signal_id = create_resp.json()["id"]
+        response = client.post(
+            "/api/signals/analyze",
+            json={"signal_id": signal_id, "analysis_type": "anomaly", "parameters": {"threshold_std": 2.0}},
+        )
+        assert response.status_code == 200
+        data = response.json()
+        assert data["analysis_type"] == "anomaly"
+        assert "anomaly_indices" in data["result_data"]
+        assert "anomaly_values" in data["result_data"]
+        assert "threshold" in data["result_data"]
+
+    def test_analyze_anomaly_windowed(self):
+        create_resp = client.post(
+            "/api/signals/generate",
+            json={"name": "Anomaly Windowed", "signal_type": "sine", "sample_rate": 1000, "duration": 2.0, "frequency": 10.0, "amplitude": 1.0},
+        )
+        signal_id = create_resp.json()["id"]
+        response = client.post(
+            "/api/signals/analyze",
+            json={"signal_id": signal_id, "analysis_type": "anomaly", "parameters": {"threshold_std": 2.0, "window_size": 500}},
+        )
+        assert response.status_code == 200
+        data = response.json()
+        assert data["analysis_type"] == "anomaly"
+        assert "anomaly_indices" in data["result_data"]
+        assert "window_size" in data["result_data"]
 
     def test_analyze_invalid_type(self):
         create_resp = client.post(

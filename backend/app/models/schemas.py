@@ -50,9 +50,16 @@ class SignalListResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
+class AnalysisType(str, Enum):
+    FFT = "fft"
+    SPECTROGRAM = "spectrogram"
+    STATISTICS = "statistics"
+    ANOMALY = "anomaly"
+
+
 class AnalysisRequest(BaseModel):
     signal_id: int
-    analysis_type: str = Field(..., pattern="^(fft|spectrogram|statistics)$")
+    analysis_type: AnalysisType
     parameters: Optional[Dict[str, Any]] = None
 
 

@@ -61,20 +61,21 @@ class SignalService:
         return True
 
     def analyze_signal(self, request: AnalysisRequest, user_id: Optional[str] = None) -> AnalysisResult:
+        from app.models.schemas import AnalysisType
         signal = self.get_signal(request.signal_id)
         if not signal:
             raise ValueError(f"Signal {request.signal_id} not found")
 
         data = signal.data
 
-        if request.analysis_type == "fft":
+        if request.analysis_type == AnalysisType.FFT:
             params = request.parameters or {}
             result = SignalProcessor.compute_fft(
                 data,
                 signal.sample_rate,
                 window=params.get("window"),
             )
-        elif request.analysis_type == "spectrogram":
+        elif request.analysis_type == AnalysisType.SPECTROGRAM:
             params = request.parameters or {}
             result = SignalProcessor.compute_spectrogram(
                 data,
@@ -83,21 +84,28 @@ class SignalService:
                 noverlap=params.get("noverlap"),
                 window=params.get("window", "hann"),
             )
-        elif request.analysis_type == "statistics":
+        elif request.analysis_type == AnalysisType.STATISTICS:
             result = SignalProcessor.compute_statistics(data)
+        elif request.analysis_type == AnalysisType.ANOMALY:
+            params = request.parameters or {}
+            result = SignalProcessor.detect_anomalies(
+                data,
+                threshold_std=params.get("threshold_std", 3.0),
+                window_size=params.get("window_size"),
+            )
         else:
             raise ValueError(f"Unknown analysis type: {request.analysis_type}")
 
         analysis = AnalysisResult(
             signal_id=request.signal_id,
-            analysis_type=request.analysis_type,
+            analysis_type=request.analysis_type.value,
             result_data=result,
         )
         self.db.add(analysis)
         self.db.commit()
         self.db.refresh(analysis)
 
-        self._log_audit(user_id, "analyze", "signal", str(request.signal_id), f"Analysis: {request.analysis_type}")
+        self._log_audit(user_id, "analyze", "signal", str(request.signal_id), f"Analysis: {request.analysis_type.value}")
 
         return analysis
 

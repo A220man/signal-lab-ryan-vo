@@ -1,6 +1,17 @@
 # Changelog
 
+## 1.4.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
 ## 1.3.0 — work-in-progress checkpoint
+
+### Added
+- Anomaly detection API endpoint (`/api/signals/analyze` with `analysis_type: anomaly`)
+- Global anomaly detection using statistical thresholds (configurable std multiplier)
+- Windowed anomaly detection for non-stationary signals
+- `AnalysisType` enum in schemas with `ANOMALY` value
+- Tests for anomaly detection API endpoints
 
 Partial code published for continued development. Known issues: STATUS.md.
 
