@@ -32,11 +32,12 @@ Acceptance:
 - FFT analysis with configurable windows
 - Filter design (FIR/IIR) and application
 - Spectrogram computation
+- Anomaly detection (global and windowed) via statistical thresholds
 - All algorithms work without LLM keys
 
-Implementation: `backend/app/services/signal_processor.py`, `backend/app/services/signal_service.py`
+Implementation: `backend/app/services/signal_processor.py`, `backend/app/services/signal_service.py`, `backend/app/api/signals.py`, `backend/app/models/schemas.py`
 
-Tests: `backend/tests/test_signal_processor.py`
+Tests: `backend/tests/test_signal_processor.py`, `backend/tests/test_api.py`
 
 ### auth-oidc — OIDC authentication with Keycloak
 
