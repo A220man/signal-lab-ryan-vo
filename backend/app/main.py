@@ -3,11 +3,18 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.core.database import init_db
 from app.api import signals
+from contextlib import asynccontextmanager
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_db()
+    yield
 
 app = FastAPI(
     title=settings.app_name,
     version=settings.app_version,
     description="Signal Lab - AI/ML Signal Processing and Analysis Platform",
+    lifespan=lifespan,
 )
 
 app.add_middleware(
@@ -19,11 +26,6 @@ app.add_middleware(
 )
 
 app.include_router(signals.router)
-
-
-@app.on_event("startup")
-def startup_event():
-    init_db()
 
 
 @app.get("/health")

@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Float, DateTime, Text, Enum as SQLEnum
 from sqlalchemy.dialects.sqlite import JSON
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum as PyEnum
 from app.core.database import Base
 import json
@@ -25,8 +25,8 @@ class Signal(Base):
     amplitude = Column(Float, default=1.0)
     parameters = Column(JSON, nullable=True)
     data = Column(JSON, nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
 
 
 class AnalysisResult(Base):
@@ -36,7 +36,7 @@ class AnalysisResult(Base):
     signal_id = Column(Integer, nullable=False, index=True)
     analysis_type = Column(String(100), nullable=False)
     result_data = Column(JSON, nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
 
 class AuditLog(Base):
@@ -48,4 +48,4 @@ class AuditLog(Base):
     resource_type = Column(String(100), nullable=False)
     resource_id = Column(String(100), nullable=True)
     details = Column(Text, nullable=True)
-    timestamp = Column(DateTime, default=datetime.utcnow)
+    timestamp = Column(DateTime, default=lambda: datetime.now(timezone.utc))
